@@ -24,4 +24,4 @@ kanefa afaka avadika ho application Android ity projet Jeux ity rehefa miaraka @
    Toy ny Mahazatra dia miezaka miala mba tsy hidona na tsy hikasihan'i Madagasikara @ Andry Rajoelina isika fa saingy rehefa feno 3000 ny Score dia Afaka mitoraka Vongan-tay an'i Andry Rajoelina isika mianakavy,
    Mendrika an'i Andry Rajoelina tokoa anefa ity fitorahana Vongan-tay azy ity ary ny irariana dia ny hidiran'izany ao ambavany ao satria izy ilay filoham-pirenena tsy manjary indrindra ety ambonin'ny tany sady rain'ny Lainga ihany koa.
 
-   Andry Rajoelina Pory Kindindreniny ! Lelen'amboa !
+   Andry Rajoelina Pory Kindindreniny ! Lelen'alika !
