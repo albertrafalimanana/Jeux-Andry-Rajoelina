@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="zah.jpg" type="image/x-icon">
+    <title>Mada Escape - Play</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #8f8d8d;
+            touch-action: none;
+            user-select: none;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        #gameInfo {
+            position: absolute;
+            top: 3px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            padding: 0 10px;
+        }
+        #audioControl {
+            cursor: pointer;
+            font-size: 20px;
+            margin-right: 20px;
+        }
+        #timerDisplay {
+            font-size: 16px;
+        }
+
+        #scoreDisplay {
+            font-size: 16px;
+        }
+
+        #shootMessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px; /* Taille augmentée pour le message */
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px; /* Augmenter le padding */
+            border-radius: 10px; /* Bords arrondis */
+            display: none;
+            width: 180px;
+            text-align: center;
+        }
+        #shootCounter {
+            font-size: 16px;
+            color: white;
+            padding-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameInfo">
+        <span id="scoreDisplay">Score: 0</span>
+        <span id="timerDisplay">⏱️ : 0s</span>
+        <span id="shootCounter">Tirs: 0</span> <!-- Ajout du compteur de tirs -->
+        <span id="audioControl">🔊</span>
+    </div>
+    <div id="shootMessage">Tifiro Vongan-tay amzay !</div>
+    <canvas id="gameCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const scoreDisplay = document.getElementById("scoreDisplay");
+        const timerDisplay = document.getElementById("timerDisplay");
+        const audioControl = document.getElementById("audioControl");
+        const shootMessage = document.getElementById("shootMessage");
+        const shootCounterDisplay = document.getElementById("shootCounter"); // Sélecteur du compteur de tirs
+
+        // Sons
+        const backgroundMusic = new Audio('background.mp3');
+        const startSound = new Audio('start.mp3');
+        const shootSound = new Audio('shoot.mp3'); // Nouveau son de tir
+        const boopSound = new Audio('boop.mp3'); // Son pour la collision avec un obstacle
+        const gameOverSound = new Audio('over.mp3'); // Son de fin de jeu
+        let winklSound = new Audio('winkl.mp3');
+
+        // Gestion du son
+        let isMuted = false;
+        backgroundMusic.loop = true;
+
+        audioControl.addEventListener('click', () => {
+            isMuted = !isMuted;
+            [backgroundMusic, startSound, shootSound, boopSound, gameOverSound, winklSound].forEach(sound => {
+                sound.muted = isMuted;
+            });
+            audioControl.textContent = isMuted ? "🔇" : "🔊";
+        });
+
+        const playerImg = new Image();
+        playerImg.src = 'dago.png';
+        const obstacleImg = new Image();
+        obstacleImg.src = 'obstacle.png';
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const player = {
+            x: canvas.width / 2 - 25,
+            y: canvas.height - 60,
+            size: 50,
+            speed: 5,
+            targetX: null,
+            canShoot: false
+        };
+
+        let obstacles = [];
+        let poops = []; // Nouveaux projectiles de caca
+        let gameRunning = true;
+        let score = 0;
+        let startTime = Date.now();
+        let elapsedTime = 0;
+        let shootCount = 0; // Nouveau compteur de tirs
+
+        // Jouer le son de démarrage et musique de fond
+        startSound.play();
+        backgroundMusic.play();
+
+        function createObstacle() {
+            if (!gameRunning) return;
+            let x = Math.random() * (canvas.width - 60);
+            obstacles.push({ 
+                x, 
+                y: -60, 
+                size: 60, 
+                speed: Math.random() * 3 + 2 
+            });
+        }
+
+        function shootPoop() {
+            if (!player.canShoot || poops.length > 0) return;
+            shootSound.play();
+            shootCount++; // Incrémenter le compteur de tirs
+            shootCounterDisplay.textContent = `Tirs: ${shootCount}`; // Mettre à jour l'affichage du compteur de tirs
+
+            poops.push({
+                x: player.x + player.size / 2,
+                y: player.y,
+                size: 60,
+                speed: 10
+            });
+        }
+
+        function update() {
+            if (!gameRunning) return;
+            
+            elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            timerDisplay.textContent = `⏱️: ${elapsedTime}s`;
+
+            // Activer le tir si le score dépasse 3000
+            player.canShoot = score >= 3000;
+
+            // Afficher le message pendant 3 secondes lorsque l'utilisateur peut tirer
+            if (player.canShoot && !shootMessage.style.display) {
+                shootMessage.style.display = 'block';
+                winklSound.play(); // Joue le son winkl.mp3
+                setTimeout(() => {
+                    shootMessage.style.display = 'none';
+                }, 3000); // 3 secondes
+            }
+
+            if (player.targetX !== null) {
+                if (player.x < player.targetX) {
+                    player.x += player.speed;
+                    if (player.x > player.targetX) player.x = player.targetX;
+                } else if (player.x > player.targetX) {
+                    player.x -= player.speed;
+                    if (player.x < player.targetX) player.x = player.targetX;
+                }
+            }
+
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.size > canvas.width) player.x = canvas.width - player.size;
+
+            // Mise à jour des obstacles
+            for (let i = 0; i < obstacles.length; i++) {
+                obstacles[i].y += obstacles[i].speed;
+                
+                // Vérification de collision avec les obstacles
+                if (
+                    player.x < obstacles[i].x + obstacles[i].size &&
+                    player.x + player.size > obstacles[i].x &&
+                    player.y < obstacles[i].y + obstacles[i].size &&
+                    player.y + player.size > obstacles[i].y
+                ) {
+                    gameRunning = false;
+                    gameOverSound.play(); // Jouer le son de fin de jeu
+                    backgroundMusic.pause();
+                    alert(`Game Over! Score: ${score}, Temps: ${elapsedTime}s, Tirs: ${shootCount}`);
+                    location.reload();
+                }
+            }
+
+            // Mise à jour des projectiles de caca
+            for (let i = poops.length - 1; i >= 0; i--) {
+                poops[i].y -= poops[i].speed;
+
+                // Vérification de collision avec les obstacles
+                for (let j = obstacles.length - 1; j >= 0; j--) {
+                    if (
+                        poops[i].x < obstacles[j].x + obstacles[j].size &&
+                        poops[i].x + poops[i].size > obstacles[j].x &&
+                        poops[i].y < obstacles[j].y + obstacles[j].size &&
+                        poops[i].y + poops[i].size > obstacles[j].y
+                    ) {
+                        obstacles.splice(j, 1);
+                        poops.splice(i, 1);
+                        boopSound.play(); // Jouer le son de collision
+                        break;
+                    }
+                }
+
+                // Supprimer les projectiles hors de l'écran
+                if (poops[i] && poops[i].y < 0) {
+                    poops.splice(i, 1);
+                }
+            }
+
+            obstacles = obstacles.filter(obstacle => obstacle.y < canvas.height);
+
+            score++;
+            scoreDisplay.textContent = `Score: ${score}`;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.drawImage(playerImg, player.x, player.y, player.size, player.size);
+
+            for (let obstacle of obstacles) {
+                ctx.drawImage(obstacleImg, obstacle.x, obstacle.y, obstacle.size, obstacle.size);
+            }
+
+            // Dessiner les projectiles de caca
+            ctx.font = "50px Arial"; // Augmente la taille de l'emoji 💩
+            ctx.textAlign = "center"; // Centre l'emoji sur la position
+            for (let poop of poops) {
+                ctx.fillText('💩', poop.x, poop.y);
+            }
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function setPlayerTarget(clientX) {
+            player.targetX = clientX - player.size / 2;
+        }
+
+        canvas.addEventListener('mousemove', (e) => {
+            setPlayerTarget(e.clientX);
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            setPlayerTarget(e.touches[0].clientX);
+        });
+
+        // Ajout de l'événement de tir
+        canvas.addEventListener('click', () => {
+            shootPoop();
+        });
+
+        document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
+        setInterval(createObstacle, 1000);
+        gameLoop();
+    </script>
+</body>
+</html>

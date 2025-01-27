@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Mada Escape - Play</title>
+    <link rel="shortcut icon" href="zah.jpg" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+            overflow: hidden;
+        }
+
+        .container:hover {
+            transform: scale(1.03);
+        }
+
+        h3 {
+            color: #ff4040;
+            font-size: 30px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .game-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #ddd;
+            text-align: left;
+            word-wrap: break-word;
+        }
+
+        .profile-section {
+            margin-bottom: 30px;
+        }
+
+        .profile-section img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #ff4040;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-section h2 {
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            background-color: #ff4040;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #e62e2e;
+            transform: scale(1.05);
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            color: #ddd;
+            word-wrap: break-word;
+        }
+
+        .contact-info a {
+            color: #ff4040;
+            font-size: 1rem;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            transform: translateY(-3px);
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 20px;
+                width: 95%;
+            }
+
+            h3 {
+                font-size: 24px;
+            }
+
+            .game-description {
+                font-size: 0.95rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>À Propos de Mada Escape</h3>
+        <br><br>
+        <div class="game-description">
+            <p><strong>Mada Escape</strong> est un jeu de réflexes où vous incarnez Madagascar face aux obstacles représentés par Andry Rajoelina. Évitez les obstacles politiques et sociaux tombant à toute vitesse. Un défi excitant et addictif où vos réflexes sont la clé pour survivre le plus longtemps possible!</p>
+            <br>
+            <p>Maîtrisez les commandes tactiles ou à la souris et testez vos limites dans un monde de plus en plus rapide!</p>
+        </div>
+
+        <div class="profile-section">
+            <img src="zah.jpg" alt="Botomena Richard">
+            <br>
+            <br>
+            <h2>Albert Rafalimanana</h2>
+            <p>Développeur du jeu <strong>Mada Escape</strong></p>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html" class="btn">Retour Accueil</a>
+            <a href="game.html" class="btn">Jouer</a>
+        </div>
+
+        <div class="contact-info">
+            <p>Pour toute question ou suggestion, contactez-moi :</p>
+            <br>
+            <a href="mailto:albertrafalimanana@protonmail.me">albertrafalimanana@protonmail.me</a>
+            <a href="mailto:albertrafalimanana@hotmail.com">albertrafalimanana@hotmail.com</a>
+            <a href="https://www.facebook.com/albert.rafalimanana.2025/" target="_blank">Mon profil Facebook</a>
+            <a href="https://www.facebook.com/share/g/162cYdavFp/" target="_blank">Groupe Facebook</a>
+        </div>
+    </div>
+</body>
+</html>
