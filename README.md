@@ -4,18 +4,7 @@ Ity Jeux Andry Rajoelina ity dia antsoina @ Tena anaran'ny hoe (Mada Escape) tsy
 kanefa afaka avadika ho application Android ity projet Jeux ity rehefa miaraka @ ireo logiciel izay famadihana ny Projet Web (HTML/CSS & JS) ho lasa application android toy ny :
 
  - CORDOVA
- - Capacitor
  - Adobe PhoneGap
- - React Native
- - Android Studio izay miaraka @ Java
- - WebViewGold
- - BuildFire
- - FlutterFlow
- - Wappler
- - OutSystems
- - Electron
- - HTML Compiler
- - Website2apk
  - etc.....
 
    Efa version vaovao izy ity ary atolotra anareo ny Code Source ka na iza na iza dia afaka manova sy manatsara kanefa mba tsarovy ihany ny anarako (Albert Rafalimanana)
