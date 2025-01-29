@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="shortcut icon" href="zah.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href=",,/assets/images/zah.jpg" type="image/x-icon">
     <title>Mada Escape - Play</title>
     <style>
         body {
@@ -84,12 +84,12 @@
         const shootCounterDisplay = document.getElementById("shootCounter"); // Sélecteur du compteur de tirs
 
         // Sons
-        const backgroundMusic = new Audio('background.mp3');
-        const startSound = new Audio('start.mp3');
-        const shootSound = new Audio('shoot.mp3'); // Nouveau son de tir
-        const boopSound = new Audio('boop.mp3'); // Son pour la collision avec un obstacle
-        const gameOverSound = new Audio('over.mp3'); // Son de fin de jeu
-        let winklSound = new Audio('winkl.mp3');
+        const backgroundMusic = new Audio('../assets/sounds/background.mp3');
+        const startSound = new Audio('../assets/sounds/start.mp3');
+        const shootSound = new Audio('../assets/sounds/shoot.mp3'); // Nouveau son de tir
+        const boopSound = new Audio('../assets/sounds/boop.mp3'); // Son pour la collision avec un obstacle
+        const gameOverSound = new Audio('../assets/sounds/over.mp3'); // Son de fin de jeu
+        let winklSound = new Audio('../assets/sounds/winkl.mp3');
 
         // Gestion du son
         let isMuted = false;
@@ -104,9 +104,9 @@
         });
 
         const playerImg = new Image();
-        playerImg.src = 'dago.png';
+        playerImg.src = '../assets/images/dago.png';
         const obstacleImg = new Image();
-        obstacleImg.src = 'obstacle.png';
+        obstacleImg.src = '../assets/images/obstacle.png';
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
